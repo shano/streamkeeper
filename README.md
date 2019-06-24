@@ -24,4 +24,5 @@ For now copy config.py.sample to config.py and fill in following the TODO commen
 * Research alternative to having to use subprocess for ffpmeg and streamlink
 * Create a stream model to represent the state of the stream being downloaded/converted
 * Should stop notifications if PUSHOVER not configured
-* Support more formats
+* Support more streaming sources
+* Support more video formats
