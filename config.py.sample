@@ -1,0 +1,17 @@
+#!/usr/bin/python
+
+YOUTUBE_CONFIG = {
+  'DEVELOPER_KEY': '', # TODO Get here: https://developers.google.com/youtube/v3/getting-started
+  'API_SERVICE_NAME': 'youtube',
+  'API_VERSION': 'v3',
+  'CHANNEL_ID': '' # TODO Get via the url of the channel you want to add https://www.youtube.com/channel/<CHANNEL_ID>
+}
+
+PUSHOVER_CONFIG = { # TODO Get pushover config here: https://pushover.net/api
+  'CLIENT_ID': '',
+  'TOKEN': ''
+}
+
+PATH_CONFIG = {
+  'OUTPUT': '' # TODO Fill in folder path
+}
