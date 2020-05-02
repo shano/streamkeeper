@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import youtube_dl
 import subprocess
-import time
 from abc import ABC, abstractmethod
 
 
