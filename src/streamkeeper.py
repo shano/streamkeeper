@@ -1,10 +1,8 @@
 #!/usr/bin/python
 
-import argparse
 import time
 import typing
 
-# TODO Take args and initialise diff deps better
 from services.StreamDownloadService import AbstractStreamDownloaderService
 from services.StreamDiscoveryService import AbstractStreamDiscoveryService
 from services.NotificationService import AbstractNotificationService
@@ -16,10 +14,6 @@ from services.NotificationService import PushoverNotificationService
 from services.ConversionService import FfmpgConversionService
 
 from config import YOUTUBE_CONFIG, PUSHOVER_CONFIG, PATH_CONFIG
-
-
-def notify_user(title, message=""):
-    Client(PUSHOVER_CLIENT_ID).send_message(message, title=title)
 
 
 class StreamKeeper:
@@ -35,12 +29,13 @@ class StreamKeeper:
         self.stream_downloader = stream_downloader
         self.notifier = notifier
 
-    def __machine_name(self, s):
+    @staticmethod
+    def __machine_name(s):
         return "".join(x for x in s if x.isalnum())
 
     def start(self):
         self.notifier.notify("Starting streamkeeper")
-        while True:  # TODO Better way to daemonise
+        while True:
             search_result = self.stream_discoverer.search()
             if search_result:
                 [stream_id, stream_name] = search_result

@@ -1,6 +1,5 @@
 #!/usr/bin/python
 from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
 
 from abc import ABC, abstractmethod
 
@@ -11,12 +10,16 @@ class AbstractStreamDiscoveryService(ABC):
         pass
 
     @abstractmethod
-    def __init__(self, channel_id, args={}):
+    def __init__(self, channel_id, args=None):
+        if args is None:
+            args = {}
         self.channel_id = channel_id
 
 
 class YoutubeStreamDiscoveryService(AbstractStreamDiscoveryService):
-    def __init__(self, channel_id, args={}):
+    def __init__(self, channel_id, args=None):
+        if args is None:
+            args = {}
         super().__init__(channel_id)
         self.youtube = build(
             args["YOUTUBE_API_SERVICE_NAME"],

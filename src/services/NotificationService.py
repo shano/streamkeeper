@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from pushover import init, Client
 
 
@@ -9,7 +9,7 @@ class AbstractNotificationService:
         self.token = TOKEN
 
     @abstractmethod
-    def notify(self, video_id, video_name):
+    def notify(self, message, title=""):
         pass
 
 

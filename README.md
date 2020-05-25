@@ -1,3 +1,5 @@
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 # Streamkeeper
 
 Watches specified youtube channels and will automatically download any live streams the youtube channel posts, then converts to a video format. Optioanlly you can get notified over pushover.

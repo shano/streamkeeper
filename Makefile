@@ -17,7 +17,7 @@ test:
 	PYTHONPATH=${SRC_DIR} ${VENV_DIR}/bin/pytest
 
 lint:
-	${VENV_DIR}/bin/black
+	${VENV_DIR}/bin/black ${SRC_DIR}
 
 run:
 	${VENV_DIR}/bin/python ${SRC_DIR}/streamkeeper.py
