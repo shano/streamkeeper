@@ -132,3 +132,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Editors
+.vscode
+
+# Tours
+.tours
+
+# Files
+files
