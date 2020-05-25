@@ -135,3 +135,12 @@ dmypy.json
 
 # Editors
 .vscode
+<<<<<<< HEAD
+
+# Tours
+.tours
+
+# Files
+files
+=======
+>>>>>>> master

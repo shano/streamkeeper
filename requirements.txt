@@ -17,9 +17,9 @@ python-pushover==0.4
 requests==2.22.0
 rsa==4.0
 six==1.12.0
-streamlink==1.1.1
 uritemplate==3.0.0
 urllib3==1.25.3
 websocket-client==0.56.0
-youtube-dl==2019.6.8
 youtube-python==1.0.13
+streamlink==1.4.1
+youtube-dl==2020.5.8

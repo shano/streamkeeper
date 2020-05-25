@@ -9,7 +9,7 @@ class AbstractNotificationService:
         self.token = TOKEN
 
     @abstractmethod
-    def notify(self, video_id, video_name):
+    def notify(self, message, title=""):
         pass
 
 
