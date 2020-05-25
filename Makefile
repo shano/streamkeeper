@@ -10,7 +10,7 @@ help:
 
 
 setup:
-	virtualenv ${VENV_DIR} -p ${PYTHON_CMD}
+	${PYTHON_CMD} -m venv ${VENV_DIR}
 	${VENV_DIR}/bin/pip install -r requirements.txt -q
 
 test:
