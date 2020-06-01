@@ -1,7 +1,6 @@
 from services.StreamDiscoveryService import YoutubeStreamDiscoveryService
 from unittest import mock
 from unittest.mock import MagicMock
-import os
 
 
 @mock.patch("services.StreamDiscoveryService.build")
@@ -42,4 +41,4 @@ def test_discovery(mock_discovery_client):
         developerKey=args["DEVELOPER_KEY"],
     )
     # list_mock.search().list().assert_called_once()
-    # list_mock.assert_called_once_with(expected_list_args)
+    list_mock.assert_called_once_with(expected_list_args)
