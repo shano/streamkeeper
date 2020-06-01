@@ -19,4 +19,5 @@ class PushoverNotificationService(AbstractNotificationService):
         init(self.token)
 
     def notify(self, message, title=""):
+        print(f"Notification {message} - {title}")
         Client(self.client_id).send_message(message, title=title)

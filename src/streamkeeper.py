@@ -2,6 +2,7 @@
 
 import time
 import typing
+import time
 
 from services.StreamDownloadService import AbstractStreamDownloaderService
 from services.StreamDiscoveryService import AbstractStreamDiscoveryService
@@ -30,8 +31,8 @@ class StreamKeeper:
         self.notifier = notifier
 
     @staticmethod
-    def __machine_name(s):
-        return "".join(x for x in s if x.isalnum())
+    def __unique_machine_name(s):
+        return "".join(x for x in s if x.isalnum()) + time.strftime("%Y%m%d-%H%M%S")
 
     def start(self):
         self.notifier.notify("Starting streamkeeper")
@@ -39,7 +40,7 @@ class StreamKeeper:
             search_result = self.stream_discoverer.search()
             if search_result:
                 [stream_id, stream_name] = search_result
-                machine_friendly_name = self.__machine_name(stream_name)
+                machine_friendly_name = self.__unique_machine_name(stream_name)
                 self.notifier.notify(
                     "Downloading video -> %s" % stream_name, title="Stream Started"
                 )
