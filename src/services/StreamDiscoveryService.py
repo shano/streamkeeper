@@ -17,6 +17,9 @@ class AbstractStreamDiscoveryService(ABC):
 
 
 class YoutubeStreamDiscoveryService(AbstractStreamDiscoveryService):
+
+    youtube = None
+
     def __init__(self, channel_id, args=None):
         if args is None:
             args = {}
