@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
+import argparse
 import time
 import typing
+import daemon
 
 from services.StreamDownloadService import AbstractStreamDownloaderService
 from services.StreamDiscoveryService import AbstractStreamDiscoveryService
@@ -33,8 +35,7 @@ class StreamKeeper:
     def __unique_machine_name(s):
         return "".join(x for x in s if x.isalnum()) + time.strftime("%Y%m%d-%H%M%S")
 
-    def start(self):
-        self.notifier.notify("Starting streamkeeper")
+    def run(self):
         while True:
             try:
                 search_result = self.stream_discoverer.search()
@@ -57,10 +58,29 @@ class StreamKeeper:
                 self.notifier.notify("Exception happened %s" % e.message)
                 time.sleep(1800)
 
-            time.sleep(1800)
+    def start(self, run_type="process"):
+        self.notifier.notify("Starting streamkeeper")
+        if run_type == "daemon":
+            with daemon.DaemonContext():
+                self.run()
+        else:
+            self.run()
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        dest="run_type",
+        choices=["daemon", "process"],
+        help="Run as a background daemon",
+        default="false",
+    )
+
+    return parser.parse_args()
 
 
 def main():
+    args = parse_args()
     # Initialise dependencies
     service_converter = FfmpgConversionService(PATH_CONFIG["OUTPUT"])
     try:
@@ -91,7 +111,7 @@ def main():
         service_stream_downloader,
         service_notifier,
     )
-    streamkeeper.start()
+    streamkeeper.start(args.run_type)
 
 
 if __name__ == "__main__":

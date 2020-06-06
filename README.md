@@ -14,3 +14,10 @@ Also requires [ffmpeg](https://ffmpeg.org/) and [streamlink](https://github.com/
 ## Configuration
 
 For now copy config.py.sample to config.py and fill in following the TODO comments.
+
+
+## Usage
+
+* `make setup`
+* `source venv/bin/activate`
+* `make start` or `make daemon` to background it
