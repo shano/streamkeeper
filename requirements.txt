@@ -13,6 +13,7 @@ pyasn1==0.4.5
 pyasn1-modules==0.2.5
 pycryptodome==3.8.2
 PySocks==1.7.0
+python-daemon==2.2.4
 python-pushover==0.4
 requests==2.22.0
 rsa==4.0

@@ -19,5 +19,8 @@ test:
 lint:
 	${VENV_DIR}/bin/black ${SRC_DIR}
 
-run:
-	${VENV_DIR}/bin/python ${SRC_DIR}/streamkeeper.py
+start:
+	${VENV_DIR}/bin/python ${SRC_DIR}/streamkeeper.py process
+
+daemon:
+	${VENV_DIR}/bin/python ${SRC_DIR}/streamkeeper.py daemon
