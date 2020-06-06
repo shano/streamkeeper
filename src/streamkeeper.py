@@ -20,12 +20,12 @@ class StreamKeeper:
     def __init__(
         self,
         converter: typing.Type[AbstractConversionService],
-        stream_disoverer: typing.Type[AbstractStreamDiscoveryService],
+        stream_discoverer: typing.Type[AbstractStreamDiscoveryService],
         stream_downloader: typing.Type[AbstractStreamDownloaderService],
         notifier: typing.Type[AbstractNotificationService],
     ):
         self.converter = converter
-        self.stream_discoverer = stream_disoverer
+        self.stream_discoverer = stream_discoverer
         self.stream_downloader = stream_downloader
         self.notifier = notifier
 
