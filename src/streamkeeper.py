@@ -36,21 +36,27 @@ class StreamKeeper:
     def start(self):
         self.notifier.notify("Starting streamkeeper")
         while True:
-            search_result = self.stream_discoverer.search()
-            if search_result:
-                [stream_id, stream_name] = search_result
-                machine_friendly_name = self.__unique_machine_name(stream_name)
-                self.notifier.notify(
-                    "Downloading video -> %s" % stream_name, title="Stream Started"
-                )
-                self.stream_downloader.download(stream_id, machine_friendly_name)
-                self.notifier.notify(
-                    "Downloaded video -> %s" % stream_name, title="Stream Downloaded"
-                )
-                self.converter.convert(machine_friendly_name)
-                self.notifier.notify(
-                    "Converted video -> %s" % stream_name, title="Stream Converted"
-                )
+            try:
+                search_result = self.stream_discoverer.search()
+                if search_result:
+                    [stream_id, stream_name] = search_result
+                    machine_friendly_name = self.__unique_machine_name(stream_name)
+                    self.notifier.notify(
+                        "Downloading video -> %s" % stream_name, title="Stream Started"
+                    )
+                    self.stream_downloader.download(stream_id, machine_friendly_name)
+                    self.notifier.notify(
+                        "Downloaded video -> %s" % stream_name,
+                        title="Stream Downloaded",
+                    )
+                    self.converter.convert(machine_friendly_name)
+                    self.notifier.notify(
+                        "Converted video -> %s" % stream_name, title="Stream Converted"
+                    )
+            except Exception as e:
+                self.notifier.notify("Exception happened %s" % e.message)
+                time.sleep(1800)
+
             time.sleep(1800)
 
 
