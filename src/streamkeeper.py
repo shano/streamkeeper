@@ -10,10 +10,10 @@ from services.ConversionService import AbstractConversionService
 
 from services.StreamDiscoveryService import YoutubeStreamDiscoveryService
 from services.StreamDownloadService import StreamLinkDownloader
-from services.NotificationService import PushoverNotificationService
+
 from services.ConversionService import FfmpgConversionService
 
-from config import YOUTUBE_CONFIG, PUSHOVER_CONFIG, PATH_CONFIG
+from config import YOUTUBE_CONFIG, PATH_CONFIG
 
 
 class StreamKeeper:
@@ -60,12 +60,21 @@ class StreamKeeper:
             time.sleep(1800)
 
 
-if __name__ == "__main__":
+def main():
     # Initialise dependencies
     service_converter = FfmpgConversionService(PATH_CONFIG["OUTPUT"])
-    service_notifier = PushoverNotificationService(
-        PUSHOVER_CONFIG["CLIENT_ID"], PUSHOVER_CONFIG["TOKEN"]
-    )
+    try:
+        from config import PUSHOVER_CONFIG
+        from services.NotificationService import PushoverNotificationService
+
+        service_notifier = PushoverNotificationService(
+            PUSHOVER_CONFIG["CLIENT_ID"], PUSHOVER_CONFIG["TOKEN"]
+        )
+    except ImportError:
+        from services.NotificationService import PrintNotificationService
+
+        service_notifier = PrintNotificationService()
+
     service_stream_downloader = StreamLinkDownloader(PATH_CONFIG["OUTPUT"])
     service_stream_discoverer = YoutubeStreamDiscoveryService(
         YOUTUBE_CONFIG["CHANNEL_ID"],
@@ -83,3 +92,7 @@ if __name__ == "__main__":
         service_notifier,
     )
     streamkeeper.start()
+
+
+if __name__ == "__main__":
+    main()

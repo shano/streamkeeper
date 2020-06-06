@@ -21,3 +21,11 @@ class PushoverNotificationService(AbstractNotificationService):
     def notify(self, message, title=""):
         print(f"Notification {message} - {title}")
         Client(self.client_id).send_message(message, title=title)
+
+
+class PrintNotificationService(AbstractNotificationService):
+    def __init__(self):
+        pass
+
+    def notify(self, message, title=""):
+        print(f"Notification {message} - {title}")
