@@ -50,7 +50,7 @@ class StreamKeeper:
                         "Downloaded video -> %s" % stream_name,
                         title="Stream Downloaded",
                     )
-                    self.converter.convert(machine_friendly_name)
+                    # self.converter.convert(machine_friendly_name)
                     self.notifier.notify(
                         "Converted video -> %s" % stream_name, title="Stream Converted"
                     )

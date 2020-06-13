@@ -3,6 +3,8 @@ import os
 import shlex
 import subprocess
 from abc import ABC, abstractmethod
+import sys
+from streamlink_cli import main as streamlink
 
 
 class AbstractStreamDownloaderService(ABC):
@@ -16,16 +18,15 @@ class AbstractStreamDownloaderService(ABC):
 
 
 class StreamLinkDownloader(AbstractStreamDownloaderService):
+
     def download(self, video_id, video_name):
-        streamlink_bin = os.path.join(self.BIN_FOLDER, "streamlink")
         youtube_url = "https://www.youtube.com/watch?v"
-        command = '%s --hls-live-restart -o "%s/%s.ts" "%s=%s" best' % (
-            streamlink_bin,
-            self.OUTPUT_FOLDER,
-            video_name,
-            youtube_url,
-            video_id,
-        )
-        p = subprocess.Popen(shlex.split(command), shell=False, stdout=subprocess.PIPE)
-        p.communicate()
-        p.wait()
+        sys.argv.extend([
+            '--hls-live-restart',
+             '--output',
+            "%s/%s.ts" % (self.OUTPUT_FOLDER, video_name),
+            '--url',
+            "%s=%s" % (youtube_url, video_id),
+            '--default-stream',
+            "best"])
+        streamlink.main()
