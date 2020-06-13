@@ -15,7 +15,7 @@ from services.StreamDownloadService import StreamLinkDownloader
 
 from services.ConversionService import FfmpgConversionService
 
-from config import YOUTUBE_CONFIG, PATH_CONFIG
+from config import YOUTUBE_CONFIG, PATH_CONFIG, DISCOVERY_CONFIG
 
 
 class StreamKeeper:
@@ -56,7 +56,7 @@ class StreamKeeper:
                     )
             except Exception as e:
                 self.notifier.notify("Exception happened %s" % e.message)
-                time.sleep(1800)
+                time.sleep(DISCOVERY_CONFIG['TIME_BETWEEN_SCAN_SECONDS'])
 
     def start(self, run_type="process"):
         self.notifier.notify("Starting streamkeeper")
