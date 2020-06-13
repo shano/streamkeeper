@@ -54,8 +54,9 @@ class StreamKeeper:
                     self.notifier.notify(
                         "Converted video -> %s" % stream_name, title="Stream Converted"
                     )
+                time.sleep(DISCOVERY_CONFIG['TIME_BETWEEN_SCAN_SECONDS'])
             except Exception as e:
-                self.notifier.notify("Exception happened %s" % e.message)
+                self.notifier.notify("Exception happened %s" % repr(e))
                 time.sleep(DISCOVERY_CONFIG['TIME_BETWEEN_SCAN_SECONDS'])
 
     def start(self, run_type="process"):
