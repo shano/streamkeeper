@@ -15,3 +15,7 @@ PUSHOVER_CONFIG = { # TODO Get pushover config here: https://pushover.net/api
 PATH_CONFIG = {
   'OUTPUT': '' # TODO Fill in folder path
 }
+
+DISCOVERY_CONFIG = {
+  'TIME_BETWEEN_SCAN_SECONDS': 1800, # TODO Required so you don't hit API Limits
+}

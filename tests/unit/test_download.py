@@ -4,7 +4,7 @@ import os
 
 from ..helper import get_mocked_subprocess_popen
 
-
+@mock.patch.dict(os.environ, {"VIRTUAL_ENV": 'venv'})
 @mock.patch("services.StreamDownloadService.subprocess.Popen")
 def test_download_stream(mock_subprocess):
     """Tests a subprocess command is called to download stream
@@ -17,10 +17,9 @@ def test_download_stream(mock_subprocess):
     stream_link_downloader = StreamLinkDownloader("files")
     video_name = "test"
     video_id = "1234"
-    os.path.join(os.environ["VIRTUAL_ENV"], "bin", "streamlink")
     stream_url = f"https://www.youtube.com/watch?v={video_id}"
     expected_arguments = [
-        "/Users/shanedowling/Projects/streamkeeper/venv/bin/streamlink",
+        os.path.join(os.environ["VIRTUAL_ENV"], "bin", "streamlink"),
         "--hls-live-restart",
         "-o",
         f"files/{video_name}.ts",
