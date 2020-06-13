@@ -1,8 +1,8 @@
 #!/usr/bin/python
-import subprocess
-from abc import ABC, abstractmethod
 import os
 import shlex
+import subprocess
+from abc import ABC, abstractmethod
 
 
 class AbstractStreamDownloaderService(ABC):

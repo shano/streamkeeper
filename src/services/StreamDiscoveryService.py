@@ -1,7 +1,7 @@
 #!/usr/bin/python
-from googleapiclient.discovery import build
-
 from abc import ABC, abstractmethod
+
+from googleapiclient.discovery import build
 
 
 class AbstractStreamDiscoveryService(ABC):
@@ -30,18 +30,17 @@ class YoutubeStreamDiscoveryService(AbstractStreamDiscoveryService):
             developerKey=args["DEVELOPER_KEY"],
         )
 
+    def _api_search(self, **kwargs):
+        return self.youtube.search().list(**kwargs)
+
     def search(self):
-        search_response = (
-            self.youtube.search()
-            .list(
-                channelId=self.channel_id,
-                type="video",
-                eventType="live",
-                part="snippet",
-                maxResults=10,
-            )
-            .execute()
-        )
+        search_response = self._api_search(
+            channelId=self.channel_id,
+            type="video",
+            eventType="live",
+            part="snippet",
+            maxResults=10,
+        ).execute()
 
         items = search_response.get("items", [])
         if len(items) > 0:

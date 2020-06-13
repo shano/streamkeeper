@@ -1,6 +1,6 @@
+import shlex
 import subprocess
 from abc import ABC, abstractmethod
-import shlex
 
 
 class AbstractConversionService(ABC):

@@ -4,17 +4,40 @@ from unittest.mock import MagicMock
 
 
 @mock.patch("services.StreamDiscoveryService.build")
-def test_discovery(mock_discovery_client):
-    """Tests discovery returns results
+def test_discovery_builds_youtube_api_client(mock_discovery_client):
+    """Tests discovery client setup
 
     Arguments:
-        mock_subprocess {[Mock]} -- [mocked subprocess popen]
+        mock_discovery_client {[Mock]} -- [mocked discovery client]
     """
-    execute_mock = MagicMock()
-    execute_mock.get().return_value = []
-    list_mock = MagicMock()
-    list_mock.search().list().return_value = execute_mock
-    mock_discovery_client.return_value = list_mock
+    # Assemble
+    args = {
+        "YOUTUBE_API_SERVICE_NAME": "test",
+        "YOUTUBE_API_VERSION": "test",
+        "DEVELOPER_KEY": "test",
+    }
+
+    # Act
+    YoutubeStreamDiscoveryService(channel_id=1234, args=args)
+
+    # Assert
+
+    mock_discovery_client.assert_called_once_with(
+        args["YOUTUBE_API_SERVICE_NAME"],
+        args["YOUTUBE_API_VERSION"],
+        developerKey=args["DEVELOPER_KEY"],
+    )
+
+
+@mock.patch("services.StreamDiscoveryService.YoutubeStreamDiscoveryService._api_search")
+@mock.patch("services.StreamDiscoveryService.build")
+def test_discovery(mock_discovery_client, mock_api_search):
+    """Tests discovery does a valid search
+
+    Arguments:
+        mock_discovery_client {[Mock]} -- [mocked discovery client]
+        mock_api_search {[Mock]} -- [mocked search call]
+    """
     # Assemble
     args = {
         "YOUTUBE_API_SERVICE_NAME": "test",
@@ -35,10 +58,5 @@ def test_discovery(mock_discovery_client):
         "part": "snippet",
         "maxResults": 10,
     }
-    mock_discovery_client.assert_called_once_with(
-        args["YOUTUBE_API_SERVICE_NAME"],
-        args["YOUTUBE_API_VERSION"],
-        developerKey=args["DEVELOPER_KEY"],
-    )
-    # list_mock.search().list().assert_called_once()
-    # list_mock.assert_called_once_with(expected_list_args)
+    mock_api_search.assert_called_once_with(**expected_list_args)
+
