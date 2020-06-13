@@ -12,6 +12,7 @@ help:
 setup:
 	${PYTHON_CMD} -m venv ${VENV_DIR}
 	${VENV_DIR}/bin/pip install -r requirements.txt -q
+	${VENV_DIR}/bin/pip install -r requirements-dev.txt -q
 
 test:
 	PYTHONPATH=${SRC_DIR} ${VENV_DIR}/bin/pytest
