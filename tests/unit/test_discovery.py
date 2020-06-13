@@ -1,6 +1,5 @@
 from services.StreamDiscoveryService import YoutubeStreamDiscoveryService
 from unittest import mock
-from unittest.mock import MagicMock
 
 
 @mock.patch("services.StreamDiscoveryService.build")
@@ -59,4 +58,3 @@ def test_discovery(mock_discovery_client, mock_api_search):
         "maxResults": 10,
     }
     mock_api_search.assert_called_once_with(**expected_list_args)
-
