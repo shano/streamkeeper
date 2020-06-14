@@ -15,7 +15,7 @@ from services.StreamDownloadService import StreamLinkDownloader
 
 from services.ConversionService import FfmpgConversionService
 
-from config import YOUTUBE_CONFIG, PATH_CONFIG, DISCOVERY_CONFIG
+from config import YOUTUBE_CONFIG, PATH_CONFIG, DISCOVERY_CONFIG, CONVERSION_CONFIG
 
 
 class StreamKeeper:
@@ -50,10 +50,14 @@ class StreamKeeper:
                         "Downloaded video -> %s" % stream_name,
                         title="Stream Downloaded",
                     )
-                    self.converter.convert(machine_friendly_name)
-                    self.notifier.notify(
-                        "Converted video -> %s" % stream_name, title="Stream Converted"
-                    )
+                    if CONVERSION_CONFIG["ENABLED"]:
+                        self.converter.convert(
+                            machine_friendly_name, CONVERSION_CONFIG["OUTPUT_FORMAT"]
+                        )
+                        self.notifier.notify(
+                            "Converted video -> %s" % stream_name,
+                            title="Stream Converted",
+                        )
                 time.sleep(DISCOVERY_CONFIG["TIME_BETWEEN_SCAN_SECONDS"])
             except Exception as e:
                 self.notifier.notify("Exception happened %s" % repr(e))
