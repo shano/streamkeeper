@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 
 class AbstractConversionService(ABC):
     @abstractmethod
-    def convert(self, video_name):
+    def convert(self, video_name, output_format):
         pass
 
 
