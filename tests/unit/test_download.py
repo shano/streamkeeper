@@ -1,10 +1,12 @@
-from services.StreamDownloadService import StreamLinkDownloader
-from unittest import mock
 import os
+from unittest import mock
+
+from services.StreamDownloadService import StreamLinkDownloader
 
 from ..helper import get_mocked_subprocess_popen
 
-@mock.patch.dict(os.environ, {"VIRTUAL_ENV": 'venv'})
+
+@mock.patch.dict(os.environ, {"VIRTUAL_ENV": "venv"})
 @mock.patch("services.StreamDownloadService.subprocess.Popen")
 def test_download_stream(mock_subprocess):
     """Tests a subprocess command is called to download stream

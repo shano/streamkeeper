@@ -1,5 +1,6 @@
-from services.ConversionService import FfmpgConversionService
 from unittest import mock
+
+from services.ConversionService import FfmpgConversionService
 
 from ..helper import get_mocked_subprocess_popen
 

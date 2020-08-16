@@ -1,5 +1,6 @@
-from services.StreamDiscoveryService import YoutubeStreamDiscoveryService
 from unittest import mock
+
+from services.StreamDiscoveryService import YoutubeStreamDiscoveryService
 
 
 @mock.patch("services.StreamDiscoveryService.build")
@@ -22,9 +23,7 @@ def test_discovery_builds_youtube_api_client(mock_discovery_client):
     # Assert
 
     mock_discovery_client.assert_called_once_with(
-        args["YOUTUBE_API_SERVICE_NAME"],
-        args["YOUTUBE_API_VERSION"],
-        developerKey=args["DEVELOPER_KEY"],
+        args["YOUTUBE_API_SERVICE_NAME"], args["YOUTUBE_API_VERSION"], developerKey=args["DEVELOPER_KEY"],
     )
 
 

@@ -3,19 +3,14 @@
 import argparse
 import time
 import typing
+
 import daemon
 
-from services.StreamDownloadService import AbstractStreamDownloaderService
-from services.StreamDiscoveryService import AbstractStreamDiscoveryService
+from config import CONVERSION_CONFIG, DISCOVERY_CONFIG, PATH_CONFIG, YOUTUBE_CONFIG
+from services.ConversionService import AbstractConversionService, FfmpgConversionService
 from services.NotificationService import AbstractNotificationService
-from services.ConversionService import AbstractConversionService
-
-from services.StreamDiscoveryService import YoutubeStreamDiscoveryService
-from services.StreamDownloadService import StreamLinkDownloader
-
-from services.ConversionService import FfmpgConversionService
-
-from config import YOUTUBE_CONFIG, PATH_CONFIG, DISCOVERY_CONFIG, CONVERSION_CONFIG
+from services.StreamDiscoveryService import AbstractStreamDiscoveryService, YoutubeStreamDiscoveryService
+from services.StreamDownloadService import AbstractStreamDownloaderService, StreamLinkDownloader
 
 
 class StreamKeeper:
@@ -42,21 +37,15 @@ class StreamKeeper:
                 if search_result:
                     [stream_id, stream_name] = search_result
                     machine_friendly_name = self.__unique_machine_name(stream_name)
-                    self.notifier.notify(
-                        "Downloading video -> %s" % stream_name, title="Stream Started"
-                    )
+                    self.notifier.notify("Downloading video -> %s" % stream_name, title="Stream Started")
                     self.stream_downloader.download(stream_id, machine_friendly_name)
                     self.notifier.notify(
-                        "Downloaded video -> %s" % stream_name,
-                        title="Stream Downloaded",
+                        "Downloaded video -> %s" % stream_name, title="Stream Downloaded",
                     )
                     if CONVERSION_CONFIG["ENABLED"]:
-                        self.converter.convert(
-                            machine_friendly_name, CONVERSION_CONFIG["OUTPUT_FORMAT"]
-                        )
+                        self.converter.convert(machine_friendly_name, CONVERSION_CONFIG["OUTPUT_FORMAT"])
                         self.notifier.notify(
-                            "Converted video -> %s" % stream_name,
-                            title="Stream Converted",
+                            "Converted video -> %s" % stream_name, title="Stream Converted",
                         )
                 time.sleep(DISCOVERY_CONFIG["TIME_BETWEEN_SCAN_SECONDS"])
             except Exception as e:
@@ -75,10 +64,7 @@ class StreamKeeper:
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        dest="run_type",
-        choices=["daemon", "process"],
-        help="Run as a background daemon",
-        default="false",
+        dest="run_type", choices=["daemon", "process"], help="Run as a background daemon", default="false",
     )
 
     return parser.parse_args()
@@ -92,9 +78,7 @@ def main():
         from config import PUSHOVER_CONFIG
         from services.NotificationService import PushoverNotificationService
 
-        service_notifier = PushoverNotificationService(
-            PUSHOVER_CONFIG["CLIENT_ID"], PUSHOVER_CONFIG["TOKEN"]
-        )
+        service_notifier = PushoverNotificationService(PUSHOVER_CONFIG["CLIENT_ID"], PUSHOVER_CONFIG["TOKEN"])
     except ImportError:
         from services.NotificationService import PrintNotificationService
 
@@ -111,10 +95,7 @@ def main():
     )
 
     streamkeeper = StreamKeeper(
-        service_converter,
-        service_stream_discoverer,
-        service_stream_downloader,
-        service_notifier,
+        service_converter, service_stream_discoverer, service_stream_downloader, service_notifier,
     )
     streamkeeper.start(args.run_type)
 

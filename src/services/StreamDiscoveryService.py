@@ -25,9 +25,7 @@ class YoutubeStreamDiscoveryService(AbstractStreamDiscoveryService):
             args = {}
         super().__init__(channel_id)
         self.youtube = build(
-            args["YOUTUBE_API_SERVICE_NAME"],
-            args["YOUTUBE_API_VERSION"],
-            developerKey=args["DEVELOPER_KEY"],
+            args["YOUTUBE_API_SERVICE_NAME"], args["YOUTUBE_API_VERSION"], developerKey=args["DEVELOPER_KEY"],
         )
 
     def _api_search(self, **kwargs):
@@ -35,11 +33,7 @@ class YoutubeStreamDiscoveryService(AbstractStreamDiscoveryService):
 
     def search(self):
         search_response = self._api_search(
-            channelId=self.channel_id,
-            type="video",
-            eventType="live",
-            part="snippet",
-            maxResults=10,
+            channelId=self.channel_id, type="video", eventType="live", part="snippet", maxResults=10,
         ).execute()
 
         items = search_response.get("items", [])
