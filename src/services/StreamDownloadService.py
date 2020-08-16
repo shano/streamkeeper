@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import os
 import shlex
-import subprocess
+import subprocess  # nosec - Apart of later fix
 from abc import ABC, abstractmethod
 
 
@@ -26,6 +26,6 @@ class StreamLinkDownloader(AbstractStreamDownloaderService):
             youtube_url,
             video_id,
         )
-        p = subprocess.Popen(shlex.split(command), shell=False, stdout=subprocess.PIPE)
+        p = subprocess.Popen(shlex.split(command), shell=False, stdout=subprocess.PIPE)  # nosec - Apart of later fix
         p.communicate()
         p.wait()
