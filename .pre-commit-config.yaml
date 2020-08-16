@@ -1,0 +1,18 @@
+repos:
+  - repo: https://github.com/timothycrosley/isort
+    rev: 5.4.1
+    hooks:
+    -   id: isort
+        additional_dependencies: ["toml"]
+        types: [python]
+
+  - repo: https://github.com/psf/black
+    rev: 19.10b0 # Use an immutable ref not stable
+    hooks:
+    - id: black
+      types: [python]
+
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.3
+    hooks:
+    - id: flake8

@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from pushover import init, Client
+from pushover import Client, init
 
 
 class AbstractNotificationService:

@@ -14,11 +14,7 @@ class FfmpgConversionService(AbstractConversionService):
         self.file_path = FILE_PATH
 
     def convert(self, video_name, output_type="mp4"):
-        command = "ffmpeg -i files/%s.ts -c:v libx264 -c:a aac files/%s.%s" % (
-            video_name,
-            video_name,
-            output_type,
-        )
+        command = "ffmpeg -i files/%s.ts -c:v libx264 -c:a aac files/%s.%s" % (video_name, video_name, output_type,)
         p = subprocess.Popen(shlex.split(command), stdout=subprocess.PIPE, shell=False)
         p.communicate()
         p.wait()

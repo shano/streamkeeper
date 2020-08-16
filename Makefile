@@ -13,12 +13,15 @@ setup:
 	${PYTHON_CMD} -m venv ${VENV_DIR}
 	${VENV_DIR}/bin/pip install -r requirements.txt -q
 	${VENV_DIR}/bin/pip install -r requirements-dev.txt -q
+	${VENV_DIR}/bin/pre-commit install 
+
 
 test:
 	PYTHONPATH=${SRC_DIR} ${VENV_DIR}/bin/pytest
 
-lint:
-	${VENV_DIR}/bin/black ${SRC_DIR}
+.PHONY: format lint
+format:
+	${VENV_DIR}/bin/pre-commit run --all-file
 
 start:
 	${VENV_DIR}/bin/python ${SRC_DIR}/streamkeeper.py process
