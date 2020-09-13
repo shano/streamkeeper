@@ -1,0 +1,20 @@
+{
+"YOUTUBE_CONFIG": {
+    "DEVELOPER_KEY": "",
+    "API_SERVICE_NAME": "youtube",
+    "API_VERSION": "v3",
+    "CHANNEL_ID": ""
+},
+"PUSHOVER_CONFIG": {
+    "CLIENT_ID": "",
+    "TOKEN": ""
+},
+"PATH_CONFIG": {"OUTPUT": ""},
+"DISCOVERY_CONFIG": {
+    "TIME_BETWEEN_SCAN_SECONDS": 1800
+},
+"CONVERSION_CONFIG": {
+    "ENABLED": "True",
+    "OUTPUT_FORMAT": "mp4"
+}
+}

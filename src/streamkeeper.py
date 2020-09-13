@@ -1,16 +1,17 @@
 #!/usr/bin/python
 
 import argparse
+import os
 import time
 import typing
 
 import daemon
 
-from config import CONVERSION_CONFIG, DISCOVERY_CONFIG, PATH_CONFIG, YOUTUBE_CONFIG
-from services.ConversionService import AbstractConversionService, FfmpgConversionService
-from services.NotificationService import AbstractNotificationService
-from services.StreamDiscoveryService import AbstractStreamDiscoveryService, YoutubeStreamDiscoveryService
-from services.StreamDownloadService import AbstractStreamDownloaderService, StreamLinkDownloader
+from .config import Config
+from .services.ConversionService import AbstractConversionService, FfmpgConversionService
+from .services.NotificationService import AbstractNotificationService
+from .services.StreamDiscoveryService import AbstractStreamDiscoveryService, YoutubeStreamDiscoveryService
+from .services.StreamDownloadService import AbstractStreamDownloaderService, StreamLinkDownloader
 
 
 class StreamKeeper:
@@ -20,17 +21,20 @@ class StreamKeeper:
         stream_discoverer: typing.Type[AbstractStreamDiscoveryService],
         stream_downloader: typing.Type[AbstractStreamDownloaderService],
         notifier: typing.Type[AbstractNotificationService],
+        config,
     ):
         self.converter = converter
         self.stream_discoverer = stream_discoverer
         self.stream_downloader = stream_downloader
         self.notifier = notifier
+        self.config = config
 
     @staticmethod
     def __unique_machine_name(s):
         return "".join(x for x in s if x.isalnum()) + time.strftime("%Y%m%d-%H%M%S")
 
     def run(self):
+        self.notifier.notify("Starting streamkeeper")
         while True:
             try:
                 search_result = self.stream_discoverer.search()
@@ -42,62 +46,88 @@ class StreamKeeper:
                     self.notifier.notify(
                         "Downloaded video -> %s" % stream_name, title="Stream Downloaded",
                     )
-                    if CONVERSION_CONFIG["ENABLED"]:
-                        self.converter.convert(machine_friendly_name, CONVERSION_CONFIG["OUTPUT_FORMAT"])
+                    if self.config.converstion["ENABLED"]:
+                        self.converter.convert(machine_friendly_name, self.config.converstion["OUTPUT_FORMAT"])
                         self.notifier.notify(
                             "Converted video -> %s" % stream_name, title="Stream Converted",
                         )
-                time.sleep(DISCOVERY_CONFIG["TIME_BETWEEN_SCAN_SECONDS"])
+                time.sleep(self.config.discovery["TIME_BETWEEN_SCAN_SECONDS"])
             except Exception as e:
                 self.notifier.notify("Exception happened %s" % repr(e))
-                time.sleep(DISCOVERY_CONFIG["TIME_BETWEEN_SCAN_SECONDS"])
-
-    def start(self, run_type="process"):
-        self.notifier.notify("Starting streamkeeper")
-        if run_type == "daemon":
-            with daemon.DaemonContext():
-                self.run()
-        else:
-            self.run()
+                time.sleep(self.config.discovery["TIME_BETWEEN_SCAN_SECONDS"])
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        dest="run_type", choices=["daemon", "process"], help="Run as a background daemon", default="false",
+        "-r",
+        "--run_type",
+        dest="run_type",
+        choices=["daemon", "process"],
+        help="Run as a background daemon",
+        default="process",
+    )
+    parser.add_argument(
+        "-c", "--config_file", type=config_file, help="Path to config file", default="false",
     )
 
     return parser.parse_args()
 
 
-def main():
-    args = parse_args()
-    # Initialise dependencies
-    service_converter = FfmpgConversionService(PATH_CONFIG["OUTPUT"])
+def config_file(config_file_path):
+    full_config_file_path = os.path.join(os.getcwd(), config_file_path)
     try:
-        from config import PUSHOVER_CONFIG
-        from services.NotificationService import PushoverNotificationService
+        return Config(full_config_file_path)
+    except Exception as e:
+        raise argparse.ArgumentTypeError(f"readable_file:{full_config_file_path} is not a valid file {str(e)}")
 
-        service_notifier = PushoverNotificationService(PUSHOVER_CONFIG["CLIENT_ID"], PUSHOVER_CONFIG["TOKEN"])
+
+def get_stream_keeper_service(config):
+    # Initialise dependencies
+    service_converter = FfmpgConversionService(config.path["OUTPUT"])
+    try:
+        from .services.NotificationService import PushoverNotificationService
+
+        service_notifier = PushoverNotificationService(config.pushover["CLIENT_ID"], config.pushover["TOKEN"])
     except ImportError:
-        from services.NotificationService import PrintNotificationService
+        from .services.NotificationService import PrintNotificationService
 
         service_notifier = PrintNotificationService()
 
-    service_stream_downloader = StreamLinkDownloader(PATH_CONFIG["OUTPUT"])
+    service_stream_downloader = StreamLinkDownloader(config.path["OUTPUT"])
     service_stream_discoverer = YoutubeStreamDiscoveryService(
-        YOUTUBE_CONFIG["CHANNEL_ID"],
+        config.youtube["CHANNEL_ID"],
         {
-            "YOUTUBE_API_SERVICE_NAME": YOUTUBE_CONFIG["API_SERVICE_NAME"],
-            "YOUTUBE_API_VERSION": YOUTUBE_CONFIG["API_VERSION"],
-            "DEVELOPER_KEY": YOUTUBE_CONFIG["DEVELOPER_KEY"],
+            "YOUTUBE_API_SERVICE_NAME": config.youtube["API_SERVICE_NAME"],
+            "YOUTUBE_API_VERSION": config.youtube["API_VERSION"],
+            "DEVELOPER_KEY": config.youtube["DEVELOPER_KEY"],
         },
     )
 
-    streamkeeper = StreamKeeper(
-        service_converter, service_stream_discoverer, service_stream_downloader, service_notifier,
+    return StreamKeeper(
+        service_converter, service_stream_discoverer, service_stream_downloader, service_notifier, config
     )
-    streamkeeper.start(args.run_type)
+
+
+def run_as_daemon():
+    args = parse_args()
+    streamkeeper = get_stream_keeper_service(args.config_file)
+    with daemon.DaemonContext():
+        streamkeeper.run()
+
+
+def run_as_process():
+    args = parse_args()
+    streamkeeper = get_stream_keeper_service(args.config_file)
+    streamkeeper.run()
+
+
+def main():
+    args = parse_args()
+    if args.run_type == "daemon":
+        run_as_daemon()
+    else:
+        run_as_process()
 
 
 if __name__ == "__main__":
