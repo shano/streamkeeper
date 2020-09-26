@@ -1,6 +1,9 @@
 import os
 from unittest import mock
 
+from hypothesis import given
+from hypothesis.strategies import integers, text
+
 from services.StreamDownloadService import StreamLinkDownloader
 
 from ..helper import get_mocked_subprocess_popen
@@ -8,7 +11,8 @@ from ..helper import get_mocked_subprocess_popen
 
 @mock.patch.dict(os.environ, {"VIRTUAL_ENV": "venv"})
 @mock.patch("services.StreamDownloadService.subprocess.Popen")
-def test_download_stream(mock_subprocess):
+@given(text(), integers())
+def test_download_stream(mock_subprocess, video_name, video_id):
     """Tests a subprocess command is called to download stream
 
     Arguments:
@@ -17,8 +21,6 @@ def test_download_stream(mock_subprocess):
     # Assemble
     mock_subprocess.return_value = get_mocked_subprocess_popen()
     stream_link_downloader = StreamLinkDownloader("files")
-    video_name = "test"
-    video_id = "1234"
     stream_url = f"https://www.youtube.com/watch?v={video_id}"
     expected_arguments = [
         os.path.join(os.environ["VIRTUAL_ENV"], "bin", "streamlink"),
@@ -33,6 +35,6 @@ def test_download_stream(mock_subprocess):
     stream_link_downloader.download(video_id, video_name)
 
     # Assert
-    mock_subprocess.assert_called_once_with(
+    mock_subprocess.assert_called_with(
         expected_arguments, stdout=-1, shell=False,
     )

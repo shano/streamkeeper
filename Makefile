@@ -16,6 +16,7 @@ setup:
 	${VENV_DIR}/bin/pre-commit install 
 
 
+.PHONY: test
 test:
 	PYTHONPATH=${SRC_DIR} ${VENV_DIR}/bin/pytest
 
