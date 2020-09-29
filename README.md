@@ -2,7 +2,7 @@
 
 # Streamkeeper
 
-Watches specified youtube channels and will automatically download any live streams the youtube channel posts, then converts to a video format. Optioanlly you can get notified over pushover.
+Watches specified youtube channels and will automatically download any live streams the youtube channel posts, then converts to a video format. Optionally you can get notified over pushover.
 
 
 ## Requirements
