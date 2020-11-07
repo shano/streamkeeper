@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 [YOUTUBE]
 DEVELOPER_KEY: # TODO Replace with here: https://developers.google.com/youtube/v3/getting-started
 API_SERVICE_NAME: youtube
