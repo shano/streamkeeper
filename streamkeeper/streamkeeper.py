@@ -5,12 +5,12 @@ import time
 import typing
 
 import daemon
-
-from config import CONVERSION_CONFIG, DISCOVERY_CONFIG, PATH_CONFIG, YOUTUBE_CONFIG
 from services.ConversionService import AbstractConversionService, FfmpgConversionService
 from services.NotificationService import AbstractNotificationService
 from services.StreamDiscoveryService import AbstractStreamDiscoveryService, YoutubeStreamDiscoveryService
 from services.StreamDownloadService import AbstractStreamDownloaderService, StreamLinkDownloader
+
+from config import CONVERSION_CONFIG, DISCOVERY_CONFIG, PATH_CONFIG, YOUTUBE_CONFIG
 
 
 class StreamKeeper:
@@ -75,8 +75,9 @@ def main():
     # Initialise dependencies
     service_converter = FfmpgConversionService(PATH_CONFIG["OUTPUT"])
     try:
-        from config import PUSHOVER_CONFIG
         from services.NotificationService import PushoverNotificationService
+
+        from config import PUSHOVER_CONFIG
 
         service_notifier = PushoverNotificationService(PUSHOVER_CONFIG["CLIENT_ID"], PUSHOVER_CONFIG["TOKEN"])
     except ImportError:

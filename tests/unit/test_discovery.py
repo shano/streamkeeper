@@ -1,9 +1,9 @@
 from unittest import mock
 
-from services.StreamDiscoveryService import YoutubeStreamDiscoveryService
+from streamkeeper.services.StreamDiscoveryService import YoutubeStreamDiscoveryService
 
 
-@mock.patch("services.StreamDiscoveryService.build")
+@mock.patch("streamkeeper.services.StreamDiscoveryService.build")
 def test_discovery_builds_youtube_api_client(mock_discovery_client):
     """Tests discovery client setup
 
@@ -27,8 +27,8 @@ def test_discovery_builds_youtube_api_client(mock_discovery_client):
     )
 
 
-@mock.patch("services.StreamDiscoveryService.YoutubeStreamDiscoveryService._api_search")
-@mock.patch("services.StreamDiscoveryService.build")
+@mock.patch("streamkeeper.services.StreamDiscoveryService.YoutubeStreamDiscoveryService._api_search")
+@mock.patch("streamkeeper.services.StreamDiscoveryService.build")
 def test_discovery(mock_discovery_client, mock_api_search):
     """Tests discovery does a valid search
 
