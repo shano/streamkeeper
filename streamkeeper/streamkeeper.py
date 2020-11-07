@@ -5,12 +5,12 @@ import time
 import typing
 
 import daemon
-from services.ConversionService import AbstractConversionService, FfmpgConversionService
-from services.NotificationService import AbstractNotificationService
-from services.StreamDiscoveryService import AbstractStreamDiscoveryService, YoutubeStreamDiscoveryService
-from services.StreamDownloadService import AbstractStreamDownloaderService, StreamLinkDownloader
 
 from config import CONVERSION_CONFIG, DISCOVERY_CONFIG, PATH_CONFIG, YOUTUBE_CONFIG
+from streamkeeper.services.ConversionService import AbstractConversionService, FfmpgConversionService
+from streamkeeper.services.NotificationService import AbstractNotificationService
+from streamkeeper.services.StreamDiscoveryService import AbstractStreamDiscoveryService, YoutubeStreamDiscoveryService
+from streamkeeper.services.StreamDownloadService import AbstractStreamDownloaderService, StreamLinkDownloader
 
 
 class StreamKeeper:
