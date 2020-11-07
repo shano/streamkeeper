@@ -17,7 +17,10 @@ test:
 
 .PHONY: format lint
 format:
-	@poetry run pre-commit run --all-files
+	@poetry run pre-commit run --all-files || \
+		( echo "Pre-commit has the following changes:\n----------" && git --no-pager diff \
+			&& echo "----------\n(Replace any starred output with the real values if you want to apply the patch)" \
+			&& false )
 
 start:
 	@poetry run streamkeeper/streamkeeper.py process
