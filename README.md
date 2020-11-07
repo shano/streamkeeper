@@ -18,5 +18,5 @@ For now copy config.py.sample to config.py and fill in following the TODO commen
 
 ## Usage
 
-* `make setup`
+* `make build`
 * `make start` or `make daemon` to background it

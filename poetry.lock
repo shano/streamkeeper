@@ -107,6 +107,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "docutils"
+version = "0.16"
+description = "Docutils -- Python Documentation Utilities"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[[package]]
 name = "filelock"
 version = "3.0.12"
 description = "A platform independent file lock."
@@ -273,6 +281,14 @@ python-versions = "*"
 six = "*"
 
 [[package]]
+name = "lockfile"
+version = "0.12.2"
+description = "Platform-independent file locking module"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "mypy-extensions"
 version = "0.4.3"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
@@ -435,6 +451,32 @@ python-versions = ">=3.5"
 [package.dependencies]
 importlib-metadata = {version = "*", markers = "python_version < \"3.8\""}
 pytest = "*"
+
+[[package]]
+name = "python-daemon"
+version = "2.2.4"
+description = "Library to implement a well-behaved Unix daemon process."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+docutils = "*"
+lockfile = ">=0.10"
+
+[package.extras]
+test = ["coverage", "docutils", "mock (>=1.3)", "testscenarios (>=0.4)", "testtools", "unittest2 (>=0.5.1)"]
+
+[[package]]
+name = "python-pushover"
+version = "0.4"
+description = "Comprehensive bindings and command line utility for the Pushover notification service"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+requests = ">=1.0"
 
 [[package]]
 name = "pytz"
@@ -615,7 +657,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "cbc06738ece305e749cedc0bc45ebf5f9824833b82a215cd095c6980857ec928"
+content-hash = "fc0c18462f9b614e1b9b93a8aa9db8d528b34f1820af3f481a908d3732e68e93"
 
 [metadata.files]
 appdirs = [
@@ -660,6 +702,10 @@ colorama = [
 distlib = [
     {file = "distlib-0.3.1-py2.py3-none-any.whl", hash = "sha256:8c09de2c67b3e7deef7184574fc060ab8a793e7adbb183d942c389c8b13c52fb"},
     {file = "distlib-0.3.1.zip", hash = "sha256:edf6116872c863e1aa9d5bb7cb5e05a022c519a4594dc703843343a9ddd9bff1"},
+]
+docutils = [
+    {file = "docutils-0.16-py2.py3-none-any.whl", hash = "sha256:0c5b78adfbf7762415433f5515cd5c9e762339e23369dbe8000d84a4bf4ab3af"},
+    {file = "docutils-0.16.tar.gz", hash = "sha256:c2de3a60e9e7d07be26b7f2b00ca0309c207e06c100f9cc2a94931fc75a478fc"},
 ]
 filelock = [
     {file = "filelock-3.0.12-py3-none-any.whl", hash = "sha256:929b7d63ec5b7d6b71b0fa5ac14e030b3f70b75747cef1b10da9b879fef15836"},
@@ -715,6 +761,10 @@ iso3166 = [
 isodate = [
     {file = "isodate-0.6.0-py2.py3-none-any.whl", hash = "sha256:aa4d33c06640f5352aca96e4b81afd8ab3b47337cc12089822d6f322ac772c81"},
     {file = "isodate-0.6.0.tar.gz", hash = "sha256:2e364a3d5759479cdb2d37cce6b9376ea504db2ff90252a2e5b7cc89cc9ff2d8"},
+]
+lockfile = [
+    {file = "lockfile-0.12.2-py2.py3-none-any.whl", hash = "sha256:6c3cb24f344923d30b2785d5ad75182c8ea7ac1b6171b08657258ec7429d50fa"},
+    {file = "lockfile-0.12.2.tar.gz", hash = "sha256:6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799"},
 ]
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
@@ -847,6 +897,13 @@ pytest = [
 pytest-randomly = [
     {file = "pytest-randomly-3.4.1.tar.gz", hash = "sha256:5fd0dbeeb218a7ce029690a8100453cd8d6a7972cf9d8e657690352692e92c69"},
     {file = "pytest_randomly-3.4.1-py3-none-any.whl", hash = "sha256:2c4df1390db72a33a4f44fac0c780e7883cd5968238efa2a2bdbdd54e3fc6681"},
+]
+python-daemon = [
+    {file = "python-daemon-2.2.4.tar.gz", hash = "sha256:57c84f50a04d7825515e4dbf3a31c70cc44414394a71608dee6cfde469e81766"},
+    {file = "python_daemon-2.2.4-py2.py3-none-any.whl", hash = "sha256:a0d5dc0b435a02c7e0b401e177a7c17c3f4c7b4e22e2d06271122c8fec5f8946"},
+]
+python-pushover = [
+    {file = "python-pushover-0.4.tar.gz", hash = "sha256:dee1b1344fb8a5874365fc9f886d9cbc7775536629999be54dfa60177cf80810"},
 ]
 pytz = [
     {file = "pytz-2020.4-py2.py3-none-any.whl", hash = "sha256:5c55e189b682d420be27c6995ba6edce0c0a77dd67bfbe2ae6607134d5851ffd"},

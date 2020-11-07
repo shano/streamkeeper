@@ -2,24 +2,27 @@
 
 import argparse
 import time
-import typing
+from pathlib import Path
+from typing import Type
 
 import daemon
 
-from config import CONVERSION_CONFIG, DISCOVERY_CONFIG, PATH_CONFIG, YOUTUBE_CONFIG
 from streamkeeper.services.ConversionService import AbstractConversionService, FfmpgConversionService
 from streamkeeper.services.NotificationService import AbstractNotificationService
 from streamkeeper.services.StreamDiscoveryService import AbstractStreamDiscoveryService, YoutubeStreamDiscoveryService
 from streamkeeper.services.StreamDownloadService import AbstractStreamDownloaderService, StreamLinkDownloader
 
+if Path("config.py").is_file():
+    from config import CONVERSION_CONFIG, DISCOVERY_CONFIG, PATH_CONFIG, YOUTUBE_CONFIG
+
 
 class StreamKeeper:
     def __init__(
         self,
-        converter: typing.Type[AbstractConversionService],
-        stream_discoverer: typing.Type[AbstractStreamDiscoveryService],
-        stream_downloader: typing.Type[AbstractStreamDownloaderService],
-        notifier: typing.Type[AbstractNotificationService],
+        converter: Type[AbstractConversionService],
+        stream_discoverer: Type[AbstractStreamDiscoveryService],
+        stream_downloader: Type[AbstractStreamDownloaderService],
+        notifier: Type[AbstractNotificationService],
     ):
         self.converter = converter
         self.stream_discoverer = stream_discoverer
@@ -75,13 +78,14 @@ def main():
     # Initialise dependencies
     service_converter = FfmpgConversionService(PATH_CONFIG["OUTPUT"])
     try:
-        from services.NotificationService import PushoverNotificationService
 
-        from config import PUSHOVER_CONFIG
+        if Path("config.py").is_file():
+            from config import PUSHOVER_CONFIG
+        from streamkeeper.services.NotificationService import PushoverNotificationService
 
         service_notifier = PushoverNotificationService(PUSHOVER_CONFIG["CLIENT_ID"], PUSHOVER_CONFIG["TOKEN"])
     except ImportError:
-        from services.NotificationService import PrintNotificationService
+        from streamkeeper.services.NotificationService import PrintNotificationService
 
         service_notifier = PrintNotificationService()
 

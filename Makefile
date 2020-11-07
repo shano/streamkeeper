@@ -1,5 +1,6 @@
 help:
 	@echo "    setup             - Setup local dev environment"
+	@echo "    build             - Build project locally"
 	@echo "    test              - Run the tests"
 	@echo "    format            - Format the codebase"
 	@echo "    start             - Start streamkeeper"
@@ -9,7 +10,7 @@ help:
 setup:
 	pip 
 	@poetry install
-	@poetry run pre-commit install 
+	@poetry run pre-commit install
 
 
 test:
@@ -22,8 +23,14 @@ format:
 			&& echo "----------\n(Replace any starred output with the real values if you want to apply the patch)" \
 			&& false )
 
+build:
+	@poetry build
+
+publish:
+	@poetry publish
+
 start:
-	@poetry run streamkeeper/streamkeeper.py process
+	@poetry run streamkeeper process
 
 daemon:
-	@poetry run streamkeeper/streamkeeper.py daemon
+	@poetry run streamkeeper daemon
