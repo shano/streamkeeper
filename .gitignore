@@ -1,5 +1,5 @@
 # Config
-config.py
+config.ini
 
 # Ignore vscode
 .vscode/*

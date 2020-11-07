@@ -30,7 +30,7 @@ publish:
 	@poetry publish
 
 start:
-	@poetry run streamkeeper process
+	@poetry run streamkeeper process ./config.ini
 
 daemon:
-	@poetry run streamkeeper daemon
+	@poetry run streamkeeper daemon ./config.ini
