@@ -17,7 +17,7 @@ test:
 
 .PHONY: format lint
 format:
-	@poetry run pre-commit run --all-file
+	@poetry run pre-commit run --all-files
 
 start:
 	@poetry run streamkeeper/streamkeeper.py process
