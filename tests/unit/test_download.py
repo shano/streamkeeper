@@ -1,4 +1,3 @@
-import os
 from unittest import mock
 
 from streamkeeper.services.StreamDownloadService import StreamLinkDownloader
@@ -6,7 +5,6 @@ from streamkeeper.services.StreamDownloadService import StreamLinkDownloader
 from ..helper import get_mocked_subprocess_popen
 
 
-@mock.patch.dict(os.environ, {"VIRTUAL_ENV": "venv"})
 @mock.patch("streamkeeper.services.StreamDownloadService.subprocess.Popen")
 def test_download_stream(mock_subprocess):
     """Tests a subprocess command is called to download stream
@@ -21,7 +19,7 @@ def test_download_stream(mock_subprocess):
     video_id = "1234"
     stream_url = f"https://www.youtube.com/watch?v={video_id}"
     expected_arguments = [
-        os.path.join(os.environ["VIRTUAL_ENV"], "bin", "streamlink"),
+        "streamlink",
         "--hls-live-restart",
         "-o",
         f"files/{video_name}.ts",
