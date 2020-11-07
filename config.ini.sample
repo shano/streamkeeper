@@ -1,0 +1,21 @@
+#!/usr/bin/python
+
+[YOUTUBE]
+DEVELOPER_KEY: # TODO Replace with here: https://developers.google.com/youtube/v3/getting-started
+API_SERVICE_NAME: youtube
+API_VERSION: v3
+CHANNEL_ID: # TODO Replace with the url of the channel you want to add https://www.youtube.com/channel/<CHANNEL_ID>
+
+[PUSHOVER]  # TODO Replace with pushover config here: https://pushover.net/api (or remove section)
+CLIENT_ID:
+TOKEN:
+
+[PATH]
+OUTPUT: # TODO Replace with /path/to/where/outputs/stored
+
+[DISCOVERY]
+TIME_BETWEEN_SCAN_SECONDS: 1800  # TODO Remove or alter so you don't hit API Limits
+
+[CONVERSION] 
+ENABLED: True  # TODO Do you want to convert the output .ts file from streamlink?
+OUTPUT_FORMAT: mp4  # TODO Output format that supports ffmpeg(defaults to mp4)

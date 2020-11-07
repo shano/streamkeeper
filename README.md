@@ -13,7 +13,7 @@ Also requires [ffmpeg](https://ffmpeg.org/) and [streamlink](https://github.com/
 
 ## Configuration
 
-For now copy config.py.sample to config.py and fill in following the TODO comments.
+For now copy config.ini.sample to config.ini and fill in following the TODO comments.
 
 
 ## Usage
