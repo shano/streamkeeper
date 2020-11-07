@@ -90,7 +90,6 @@ def main():
 
         service_notifier = PrintNotificationService()
 
-    print(config["YOUTUBE"]["CHANNEL_ID"])
     service_stream_downloader = StreamLinkDownloader(config["PATH"]["OUTPUT"])
     service_stream_discoverer = YoutubeStreamDiscoveryService(
         config["YOUTUBE"]["CHANNEL_ID"],
