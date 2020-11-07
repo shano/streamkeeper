@@ -1,30 +1,36 @@
-VENV_DIR=venv
-SRC_DIR=src
-PYTHON_CMD=python3
-
 help:
 	@echo "    setup             - Setup local dev environment"
+	@echo "    build             - Build project locally"
 	@echo "    test              - Run the tests"
 	@echo "    format            - Format the codebase"
-	@echo "    run               - Run streamkeeper"
+	@echo "    start             - Start streamkeeper"
+	@echo "    daemon            - Background streamkeeper"
 
 
 setup:
-	${PYTHON_CMD} -m venv ${VENV_DIR}
-	${VENV_DIR}/bin/pip install -r requirements.txt -q
-	${VENV_DIR}/bin/pip install -r requirements-dev.txt -q
-	${VENV_DIR}/bin/pre-commit install 
+	pip 
+	@poetry install
+	@poetry run pre-commit install
 
 
 test:
-	PYTHONPATH=${SRC_DIR} ${VENV_DIR}/bin/pytest
+	@poetry run pytest tests/
 
 .PHONY: format lint
 format:
-	${VENV_DIR}/bin/pre-commit run --all-file
+	@poetry run pre-commit run --all-files || \
+		( echo "Pre-commit has the following changes:\n----------" && git --no-pager diff \
+			&& echo "----------\n(Replace any starred output with the real values if you want to apply the patch)" \
+			&& false )
+
+build:
+	@poetry build
+
+publish:
+	@poetry publish
 
 start:
-	${VENV_DIR}/bin/python ${SRC_DIR}/streamkeeper.py process
+	@poetry run streamkeeper process
 
 daemon:
-	${VENV_DIR}/bin/python ${SRC_DIR}/streamkeeper.py daemon
+	@poetry run streamkeeper daemon

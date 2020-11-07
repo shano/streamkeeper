@@ -1,11 +1,11 @@
 from unittest import mock
 
-from services.ConversionService import FfmpgConversionService
+from streamkeeper.services.ConversionService import FfmpgConversionService
 
 from ..helper import get_mocked_subprocess_popen
 
 
-@mock.patch("services.ConversionService.subprocess.Popen")
+@mock.patch("streamkeeper.services.ConversionService.subprocess.Popen")
 def test_conversion_to_mp4(mock_subprocess):
     """Tests a subprocess command is called to convert stream
 
