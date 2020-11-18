@@ -8,7 +8,6 @@ help:
 
 
 setup:
-	pip 
 	@poetry install
 	@poetry run pre-commit install
 
