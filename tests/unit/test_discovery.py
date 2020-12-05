@@ -3,33 +3,13 @@ from unittest import mock
 from streamkeeper.services.StreamDiscoveryService import YoutubeStreamDiscoveryService
 
 
-@mock.patch("streamkeeper.services.StreamDiscoveryService.build")
-def test_discovery_builds_youtube_api_client(mock_discovery_client):
-    """Tests discovery client setup
-
-    Arguments:
-        mock_discovery_client {[Mock]} -- [mocked discovery client]
-    """
-    # Assemble
-    args = {
-        "YOUTUBE_API_SERVICE_NAME": "test",
-        "YOUTUBE_API_VERSION": "test",
-        "DEVELOPER_KEY": "test",
-    }
-
-    # Act
-    YoutubeStreamDiscoveryService(channel_id=1234, args=args)
-
-    # Assert
-
-    mock_discovery_client.assert_called_once_with(
-        args["YOUTUBE_API_SERVICE_NAME"], args["YOUTUBE_API_VERSION"], developerKey=args["DEVELOPER_KEY"],
-    )
-
-
-@mock.patch("streamkeeper.services.StreamDiscoveryService.YoutubeStreamDiscoveryService._api_search")
-@mock.patch("streamkeeper.services.StreamDiscoveryService.build")
-def test_discovery(mock_discovery_client, mock_api_search):
+@mock.patch(
+    "streamkeeper.services.StreamDiscoveryService.YoutubeStreamDiscoveryService.get_initial_data",
+    mock.Mock(return_value="{}"),
+)
+@mock.patch("streamkeeper.services.StreamDiscoveryService.urlopen", mock.Mock())
+@mock.patch("streamkeeper.services.StreamDiscoveryService.Request")
+def test_makes_correct_url_call(mock_request):
     """Tests discovery does a valid search
 
     Arguments:
@@ -37,23 +17,10 @@ def test_discovery(mock_discovery_client, mock_api_search):
         mock_api_search {[Mock]} -- [mocked search call]
     """
     # Assemble
-    args = {
-        "YOUTUBE_API_SERVICE_NAME": "test",
-        "YOUTUBE_API_VERSION": "test",
-        "DEVELOPER_KEY": "test",
-    }
-
-    yt_discovery = YoutubeStreamDiscoveryService(channel_id=1234, args=args)
 
     # Act
-    yt_discovery.search()
+    YoutubeStreamDiscoveryService(channel_id=1234)
 
     # Assert
-    expected_list_args = {
-        "channelId": 1234,
-        "type": "video",
-        "eventType": "live",
-        "part": "snippet",
-        "maxResults": 10,
-    }
-    mock_api_search.assert_called_once_with(**expected_list_args)
+    base_headers = {"User-Agent": "Mozilla/5.0", "accept-language": "en-US,en"}
+    mock_request.assert_called_once_with("https://www.youtube.com/channel/1234", headers=base_headers)
