@@ -91,14 +91,7 @@ def main():
         service_notifier = PrintNotificationService()
 
     service_stream_downloader = StreamLinkDownloader(config["PATH"]["OUTPUT"])
-    service_stream_discoverer = YoutubeStreamDiscoveryService(
-        config["YOUTUBE"]["CHANNEL_ID"],
-        {
-            "YOUTUBE_API_SERVICE_NAME": config["YOUTUBE"]["API_SERVICE_NAME"],
-            "YOUTUBE_API_VERSION": config["YOUTUBE"]["API_VERSION"],
-            "DEVELOPER_KEY": config["YOUTUBE"]["DEVELOPER_KEY"],
-        },
-    )
+    service_stream_discoverer = YoutubeStreamDiscoveryService(config["YOUTUBE"]["CHANNEL_ID"],)
 
     streamkeeper = StreamKeeper(
         service_converter, service_stream_discoverer, service_stream_downloader, service_notifier, config,

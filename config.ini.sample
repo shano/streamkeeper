@@ -1,7 +1,4 @@
 [YOUTUBE]
-DEVELOPER_KEY: # TODO Replace with here: https://developers.google.com/youtube/v3/getting-started
-API_SERVICE_NAME: youtube
-API_VERSION: v3
 CHANNEL_ID: # TODO Replace with the url of the channel you want to add https://www.youtube.com/channel/<CHANNEL_ID>
 
 [PUSHOVER]  # TODO Replace with pushover config here: https://pushover.net/api (or remove section)
